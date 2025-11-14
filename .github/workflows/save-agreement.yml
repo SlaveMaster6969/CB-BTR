@@ -1,0 +1,30 @@
+name: Save Agreement
+
+on:
+  repository_dispatch:
+    types: [new_agreement]
+
+jobs:
+  save_agreement:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Create agreements folder if needed
+        run: mkdir -p agreements
+
+      - name: Save submitted agreement
+        run: |
+          FILENAME="agreements/${{ github.event.client_payload.renter }}-$(date +%s).json"
+          echo '${{ toJson(github.event.client_payload) }}' > "$FILENAME"
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add agreements/
+          git commit -m "New agreement from ${{ github.event.client_payload.renter }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
