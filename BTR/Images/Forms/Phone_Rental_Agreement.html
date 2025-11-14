@@ -2,153 +2,74 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Phone Rental Agreement</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Device Rental Agreement</title>
 <style>
-    body { font-family: Arial, sans-serif; margin: 40px; max-width: 900px; }
-    input, textarea { width: 100%; padding: 8px; }
-    .section { margin-top: 20px; }
-    button { padding: 10px 20px; margin-top: 20px; }
-    img.signature-img { width: 250px; margin-top: 10px; }
+    body { font-family: Arial, sans-serif; margin: 40px; }
+    form { max-width: 600px; margin: auto; }
+    label { display: block; margin-top: 15px; font-weight: bold; }
+    input, textarea { width: 100%; padding: 8px; margin-top: 5px; box-sizing: border-box; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 16px; }
+    .signature { margin-top: 20px; text-align: center; }
+    .signature img { max-width: 300px; }
 </style>
 </head>
 <body>
 
-<h2>PHONE RENTAL AGREEMENT</h2>
+<h1>Device Rental Agreement</h1>
 
 <form id="rentalForm">
+    <label for="deviceName">Device Model:</label>
+    <input type="text" id="deviceName" name="deviceName" placeholder="Enter device model" required>
 
-<p>
-This Agreement is entered into by and between Braylen’s Tech Repair (“Owner”) and the undersigned individual (“Renter”). Both parties agree to the following terms and conditions:
-</p>
+    <label for="renterName">Renter Name:</label>
+    <input type="text" id="renterName" name="renterName" required>
 
-<div class="section">
-    <strong>1. DESCRIPTION OF DEVICE:</strong><br>
-    Device Model:  
-    <input type="text" id="deviceName" placeholder="Enter device model (e.g., Samsung Galaxy S7)">
-</div>
+    <label for="renterAddress">Renter Address:</label>
+    <input type="text" id="renterAddress" name="renterAddress" required>
 
-<div class="section">
-    <strong>2. CONDITION OF DEVICE:</strong><br>
-    The Device shall be inspected and photographed by both parties before release.
-</div>
+    <label for="renterDate">Date:</label>
+    <input type="date" id="renterDate" name="renterDate" required>
 
-<div class="section">
-    <strong>3. OWNERSHIP:</strong><br>
-    Ownership of the Device remains with Braylen’s Tech Repair.
-</div>
+    <div class="signature">
+        <p>Signature:</p>
+        <img src="/Signature/signature.png" alt="Signature">
+    </div>
 
-<div class="section">
-    <strong>4. RENTAL PERIOD:</strong><br>
-    The rental term is open-ended.
-</div>
-
-<div class="section">
-    <strong>5. RESPONSIBILITY FOR LOSS OR DAMAGE:</strong><br>
-    The Renter assumes responsibility for the Device.
-</div>
-
-<div class="section">
-    <strong>6. USE OF DEVICE:</strong><br>
-    Device must be used lawfully.
-</div>
-
-<div class="section">
-    <strong>7. INSPECTION AND RETURN:</strong><br>
-    Upon return, the Device will be inspected by the Owner.
-</div>
-
-<div class="section">
-    <strong>8. INDEMNIFICATION:</strong><br>
-    The Renter indemnifies Braylen’s Tech Repair.
-</div>
-
-<div class="section">
-    <strong>9. ENTIRE AGREEMENT:</strong><br>
-    This document constitutes the entire agreement.
-</div>
-
-<hr>
-
-<h3>SIGNATURES</h3>
-
-<div class="section">
-    Owner: Braylen’s Tech Repair<br>
-    Owner Signature:<br>
-    <img src="https://raw.githubusercontent.com/SlaveMaster6969/CB-BTR/refs/heads/main/BTR/Images/Forms/Signature/signature.png" class="signature-img">
-</div>
-
-<div class="section">
-    Renter Name:<br>
-    <input type="text" id="renterName">
-</div>
-
-<div class="section">
-    Renter Address:<br>
-    <input type="text" id="renterAddress">
-</div>
-
-<div class="section">
-    Renter Signature (digital):<br>
-    <input type="text" id="renterSignature" placeholder="Type your name">
-</div>
-
-<div class="section">
-    Date:<br>
-    <input type="date" id="renterDate">
-</div>
-
-<button type="button" onclick="saveAndUpload()">Submit Agreement</button>
-
+    <button type="button" onclick="submitForm()">Submit Agreement</button>
 </form>
 
 <script>
-// ====== CONFIGURE THESE ======
-const GITHUB_USERNAME = "SlaveMaster6969";
-const GITHUB_REPO = "CB-BTR";
-const GITHUB_TOKEN = "YOUR_TOKEN"; // Personal access token
-// =============================
+async function submitForm() {
+    const data = {
+        device: document.getElementById('deviceName').value,
+        renter: document.getElementById('renterName').value,
+        address: document.getElementById('renterAddress').value,
+        date: document.getElementById('renterDate').value,
+        signatureImage: "/Signature/signature.png"
+    };
 
-async function saveAndUpload() {
-    const device = document.getElementById("deviceName").value;
-    const renter = document.getElementById("renterName").value;
-    const address = document.getElementById("renterAddress").value;
-    const signature = document.getElementById("renterSignature").value;
-    const date = document.getElementById("renterDate").value;
-
-    const agreement = `
-Phone Rental Agreement
-----------------------
-Device: ${device}
-Renter: ${renter}
-Address: ${address}
-Signature: ${signature}
-Date: ${date}
-    `;
-
-    // ---- Step 1: Download copy for user ----
-    const blob = new Blob([agreement], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `Agreement-${renter}-${Date.now()}.txt`;
+    // Save a local JSON copy for the user
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Agreement-${data.renter}-${Date.now()}.json`;
     a.click();
 
-    // ---- Step 2: Upload copy to GitHub repo ----
-    const filename = `agreements/${renter}-${Date.now()}.txt`;
-
-    await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${filename}`, {
-        method: "PUT",
+    // Trigger GitHub Actions workflow via repository_dispatch
+    await fetch('https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/dispatches', {
+        method: 'POST',
         headers: {
-            "Authorization": `Bearer ${GITHUB_TOKEN}`,
-            "Content-Type": "application/json"
+            'Accept': 'application/vnd.github.v3+json'
+            // No token needed in client-side code
         },
         body: JSON.stringify({
-            message: "New rental agreement submission",
-            content: btoa(unescape(encodeURIComponent(agreement)))
+            event_type: 'new_agreement',
+            client_payload: data
         })
     });
 
-    alert("Agreement submitted and saved!");
+    alert('Agreement submitted successfully!');
 }
 </script>
 
