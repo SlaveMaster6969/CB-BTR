@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Phone Rental Agreement</title>
+<style>
+    body { font-family: Arial, sans-serif; margin: 40px; max-width: 900px; }
+    input, textarea { width: 100%; padding: 8px; }
+    .section { margin-top: 20px; }
+    button { padding: 10px 20px; margin-top: 20px; }
+    img.signature-img { width: 250px; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<h2>PHONE RENTAL AGREEMENT</h2>
+
+<form id="rentalForm">
+
+<p>
+This Agreement is entered into by and between Braylen’s Tech Repair (“Owner”) and the undersigned individual (“Renter”). Both parties agree to the following terms and conditions:
+</p>
+
+<div class="section">
+    <strong>1. DESCRIPTION OF DEVICE:</strong><br>
+    Device Model:  
+    <input type="text" id="deviceName" placeholder="Enter device model (e.g., Samsung Galaxy S7)">
+</div>
+
+<div class="section">
+    <strong>2. CONDITION OF DEVICE:</strong><br>
+    The Device shall be inspected and photographed by both parties before release.
+</div>
+
+<div class="section">
+    <strong>3. OWNERSHIP:</strong><br>
+    Ownership of the Device remains with Braylen’s Tech Repair.
+</div>
+
+<div class="section">
+    <strong>4. RENTAL PERIOD:</strong><br>
+    The rental term is open-ended.
+</div>
+
+<div class="section">
+    <strong>5. RESPONSIBILITY FOR LOSS OR DAMAGE:</strong><br>
+    The Renter assumes responsibility for the Device.
+</div>
+
+<div class="section">
+    <strong>6. USE OF DEVICE:</strong><br>
+    Device must be used lawfully.
+</div>
+
+<div class="section">
+    <strong>7. INSPECTION AND RETURN:</strong><br>
+    Upon return, the Device will be inspected by the Owner.
+</div>
+
+<div class="section">
+    <strong>8. INDEMNIFICATION:</strong><br>
+    The Renter indemnifies Braylen’s Tech Repair.
+</div>
+
+<div class="section">
+    <strong>9. ENTIRE AGREEMENT:</strong><br>
+    This document constitutes the entire agreement.
+</div>
+
+<hr>
+
+<h3>SIGNATURES</h3>
+
+<div class="section">
+    Owner: Braylen’s Tech Repair<br>
+    Owner Signature:<br>
+    <img src="/Signature/signature.png" class="signature-img">
+</div>
+
+<div class="section">
+    Renter Name:<br>
+    <input type="text" id="renterName">
+</div>
+
+<div class="section">
+    Renter Address:<br>
+    <input type="text" id="renterAddress">
+</div>
+
+<div class="section">
+    Renter Signature (digital):<br>
+    <input type="text" id="renterSignature" placeholder="Type your name">
+</div>
+
+<div class="section">
+    Date:<br>
+    <input type="date" id="renterDate">
+</div>
+
+<button type="button" onclick="saveAndUpload()">Submit Agreement</button>
+
+</form>
+
+<script>
+// ====== CONFIGURE THESE ======
+const GITHUB_USERNAME = "YOUR_USERNAME";
+const GITHUB_REPO = "YOUR_REPO";
+const GITHUB_TOKEN = "YOUR_TOKEN"; // Personal access token
+// =============================
+
+async function saveAndUpload() {
+    const device = document.getElementById("deviceName").value;
+    const renter = document.getElementById("renterName").value;
+    const address = document.getElementById("renterAddress").value;
+    const signature = document.getElementById("renterSignature").value;
+    const date = document.getElementById("renterDate").value;
+
+    const agreement = `
+Phone Rental Agreement
+----------------------
+Device: ${device}
+Renter: ${renter}
+Address: ${address}
+Signature: ${signature}
+Date: ${date}
+    `;
+
+    // ---- Step 1: Download copy for user ----
+    const blob = new Blob([agreement], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Agreement-${renter}-${Date.now()}.txt`;
+    a.click();
+
+    // ---- Step 2: Upload copy to GitHub repo ----
+    const filename = `agreements/${renter}-${Date.now()}.txt`;
+
+    await fetch(`https://api.github.com/repos/${GITHUB_USERNAME}/${GITHUB_REPO}/contents/${filename}`, {
+        method: "PUT",
+        headers: {
+            "Authorization": `Bearer ${GITHUB_TOKEN}`,
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            message: "New rental agreement submission",
+            content: btoa(unescape(encodeURIComponent(agreement)))
+        })
+    });
+
+    alert("Agreement submitted and saved!");
+}
+</script>
+
+</body>
+</html>
