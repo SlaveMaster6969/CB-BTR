@@ -46,7 +46,7 @@ async function submitForm() {
         renter: document.getElementById('renterName').value,
         address: document.getElementById('renterAddress').value,
         date: document.getElementById('renterDate').value,
-        signatureImage: "/Signature/signature.png"
+        signatureImage: "https://raw.githubusercontent.com/SlaveMaster6969/CB-BTR/refs/heads/main/BTR/Images/Forms/Signature/signature.png"
     };
 
     // Save a local JSON copy for the user
@@ -57,7 +57,7 @@ async function submitForm() {
     a.click();
 
     // Trigger GitHub Actions workflow via repository_dispatch
-    await fetch('https://api.github.com/repos/YOUR_USERNAME/YOUR_REPO/dispatches', {
+    await fetch('https://api.github.com/repos/SlaveMaster6969/CB-BTR/dispatches', {
         method: 'POST',
         headers: {
             'Accept': 'application/vnd.github.v3+json'
