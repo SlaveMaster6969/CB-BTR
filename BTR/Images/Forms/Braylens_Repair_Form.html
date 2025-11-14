@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Braylen’s Tech Repair – Device Intake Form</title>
+    <!-- Load Tailwind CSS from CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Configure Tailwind for custom colors and font -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        // Matching the main site's professional palette
+                        'charcoal-gray': '#2c3e50', 
+                        'success-green': '#2ecc71', 
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-gray-900 min-h-screen py-8">
+
+    <!-- Main Form Container -->
+    <div class="max-w-xl mx-auto px-4 sm:px-6 lg:px-8">
+
+        <h2 class="text-4xl font-extrabold text-charcoal-gray text-center mb-1">
+            Device Intake Form
+        </h2>
+        <h3 class="text-xl font-semibold text-gray-600 text-center mb-6">
+            Braylen’s Tech Repair
+        </h3>
+        
+        <!-- Contact Bar (Slightly larger and styled) -->
+        <div class="contact-bar text-center text-sm text-gray-600 mb-8 border-b pb-4">
+            <span class="mr-4">📞 (850) 483-1513</span> | 
+            <span class="ml-4">✉️ braylensaucier44@gmail.com</span>
+        </div>
+
+        <!-- The Form -->
+        <form class="bg-white p-6 sm:p-8 rounded-xl shadow-2xl space-y-6">
+
+            <!-- Customer Information -->
+            <div class="border-b border-gray-200 pb-4">
+                <h3 class="text-2xl font-bold text-charcoal-gray mb-3">Customer Information</h3>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="customer_name" class="block text-sm font-medium text-gray-700 mb-1">Name:</label>
+                        <input type="text" id="customer_name" name="customer_name" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                    </div>
+                    <div>
+                        <label for="phone_number" class="block text-sm font-medium text-gray-700 mb-1">Phone Number:</label>
+                        <input type="tel" id="phone_number" name="phone_number" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                    </div>
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Email:</label>
+                    <input type="email" id="email" name="email" required
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                </div>
+            </div>
+
+            <!-- Device Information -->
+            <div class="border-b border-gray-200 pb-4">
+                <h3 class="text-2xl font-bold text-charcoal-gray mb-3">Device Information</h3>
+
+                <div>
+                    <label for="device_model" class="block text-sm font-medium text-gray-700 mb-1">Device Type / Model:</label>
+                    <input type="text" id="device_model" name="device_model" required
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                </div>
+
+                <div>
+                    <label for="serial_imei" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Serial Number / IMEI:</label>
+                    <input type="text" id="serial_imei" name="serial_imei"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                </div>
+
+                <div>
+                    <label for="accessories" class="block text-sm font-medium text-gray-700 mt-4 mb-1">Accessories Included (case, charger, etc.):</label>
+                    <input type="text" id="accessories" name="accessories" placeholder="e.g., Charging cable, original box"
+                           class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                </div>
+            </div>
+
+            <!-- Problem Description -->
+            <div class="border-b border-gray-200 pb-4">
+                <h3 class="text-2xl font-bold text-charcoal-gray mb-3">Problem Description</h3>
+                <textarea id="problem_description" name="problem_description" rows="5" required
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray resize-y transition duration-150"
+                          placeholder="Please describe the issue in detail, including when it started and any troubleshooting you've already attempted."></textarea>
+            </div>
+
+            <!-- Terms & Disclaimer -->
+            <div>
+                <h3 class="text-2xl font-bold text-charcoal-gray mb-3">Terms & Disclaimer</h3>
+                <p class="text-sm text-gray-600 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                    By signing below, you agree that Braylen’s Tech Repair is not responsible for 
+                    data loss, damage due to pre-existing issues, or further problems that may occur 
+                    during repair. You acknowledge that you have backed up any important data before 
+                    leaving your device for service.
+                </p>
+
+                <div class="signature-box mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label for="customer_signature" class="block text-sm font-medium text-gray-700 mb-1">Customer Signature:</label>
+                        <input type="text" id="customer_signature" name="customer_signature" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                    </div>
+                    <div>
+                        <label for="date" class="block text-sm font-medium text-gray-700 mb-1">Date:</label>
+                        <input type="date" id="date" name="date" required
+                               class="w-full p-3 border border-gray-300 rounded-lg focus:ring-charcoal-gray focus:border-charcoal-gray transition duration-150">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button (Uses success-green color) -->
+            <button type="submit" 
+                    class="w-full px-8 py-4 bg-success-green text-white font-semibold rounded-lg shadow-md hover:bg-green-600 transition duration-300 transform hover:scale-[1.01] mt-8">
+                Confirm & Submit Intake Form
+            </button>
+        </form>
+
+        <!-- Logo Placeholder at the bottom -->
+        <div class="text-center mt-10">
+            <!-- Using a placeholder image that matches the charcoal gray color -->
+            <img src="https://placehold.co/250x250/2c3e50/ffffff?text=BTR+Logo" 
+                 alt="Braylen's Tech Repair Logo" 
+                 class="mx-auto w-32 h-32 rounded-full object-cover shadow-lg border-4 border-white">
+        </div>
+
+    </div>
+</body>
+</html>
